@@ -1,0 +1,29 @@
+/* Custom CSS for index.php */
+
+.card {
+  margin-top: 30px;
+}
+
+.card-title {
+  color: #333;
+}
+
+form {
+  margin-bottom: 20px;
+}
+
+.btn-block {
+  margin-top: 20px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.mt-4 {
+  margin-top: 20px;
+}
+
+.mb-3 {
+  margin-bottom: 15px;
+}
