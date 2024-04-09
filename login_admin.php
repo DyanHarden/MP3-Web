@@ -15,14 +15,16 @@ unset($_SESSION["login_error"]);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
 
 <body>
 
     <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light shadow">
+        <nav class="navbar navbar-expand-lg navbar-light bg-dark shadow">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">Techy Computer</a>
+                <a class="navbar-brand navbar-dark" href="#">Techy Computer</a>
+                <a class="navbar-brand navbar-dark" href="#"><i class="fas fa-desktop me-2"></i></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -42,7 +44,7 @@ unset($_SESSION["login_error"]);
         <div class="container">
             <div class="card border-light-subtle shadow mt-5">
                 <div class="row g-0">
-                    <div class="col-12 col-md-6 text-bg-primary">
+                    <div class="col-12 col-md-6 text-bg-dark">
                         <div class="d-flex align-items-center justify-content-center h-100">
                             <div class="col-10 col-xl-8 py-3 text-center">
                                 <img class="img-fluid rounded-circle mb-4 d-block mx-auto" loading="lazy" src="asset/adminimg.jpg" width="245" height="80" alt="BootstrapBrain Logo">
@@ -74,7 +76,7 @@ unset($_SESSION["login_error"]);
                                                         <label for="password">Password</label>
                                                         <input type="password" class="form-control" id="password" name="password_admin" placeholder="Masukkan password admin" required>
                                                     </div>
-                                                    <button type="submit" class="btn btn-primary btn-block mt-3" name="login_admin">Login</button>
+                                                    <button type="submit" class="btn btn-warning btn-block mt-3" name="login_admin">Login</button>
                                                 </form>
                                             </div>
                                         </div>
@@ -87,6 +89,15 @@ unset($_SESSION["login_error"]);
             </div>
         </div>
     </section>
+
+    <footer class="bg-dark text-center text-lg-start fixed-bottom">
+        <!-- Copyright -->
+        <div class="text-center text-light p-3" style="background-color: rgba(0, 0, 0, 0.05);">
+            © 2024 Copyright:
+            <a class="text-light" href="#">TechyComputer.com</a>
+        </div>
+        <!-- Copyright -->
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>

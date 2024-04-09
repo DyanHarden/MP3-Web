@@ -23,6 +23,8 @@ if (isset($_GET['keyword'])) {
 // Query untuk mencari barang berdasarkan keyword
 $sql = "SELECT * FROM barang WHERE nama_barang LIKE '%$keyword%' OR vendor LIKE '%$keyword%'";
 $result = mysqli_query($conn, $sql);
+
+$username = $_SESSION["username_pelanggan"];
 ?>
 
 
@@ -39,7 +41,7 @@ $result = mysqli_query($conn, $sql);
 
     <!-- Bootstrap core CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
         .bd-placeholder-img {
             font-size: 1.125rem;
@@ -61,58 +63,77 @@ $result = mysqli_query($conn, $sql);
 
 <body>
 
+    <!-- Navbar -->
     <header>
-        <div class="collapse bg-dark" id="navbarHeader">
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-8 col-md-7 py-4">
-                        <h4 class="text-white">About</h4>
-                        <p class="text-muted">Add some information about the album below, the author, or any other background context. Make it a few sentences long so folks can pick up some informative tidbits. Then, link them off to some social networking sites or contact information.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="navbar navbar-dark bg-dark shadow-sm">
-            <div class="container">
-                <a href="#" class="navbar-brand d-flex align-items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true" class="me-2" viewBox="0 0 24 24">
-                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-                        <path d="M8 21V12h8v9"></path>
-                        <circle cx="12" cy="17" r="4"></circle>
-                    </svg>
-                    <strong>TechyComputer</strong>
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+        <nav class="navbar navbar-dark bg-dark shadow fixed-top" aria-label="First navbar">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#"><i class="fas fa-desktop me-2"></i>Techy Computer</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample01" aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+
+                <div class="collapse navbar-collapse" id="navbarsExample01">
+                    <ul class="navbar-nav me-auto mb-2">
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="#jumbotron">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#display">Daftar Barang</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#rekomendasi">Galeri Rekomendasi Rakitan PC</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#detailtoko">Detail Toko</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
+        </nav>
     </header>
 
     <main>
-        <section>
+        <!-- Jumbtron -->
+        <section id="jumbotron">
             <div class="b-example-divider"></div>
-
-            <div class="container col-xxl-8 px-4 py-5">
+            <div class="container col-xxl-8 px-4 py-5 mt-5">
                 <div class="row flex-lg-row-reverse align-items-center g-5 py-5 shadow-sm">
                     <div class="col-10 col-sm-8 col-lg-6">
                         <img src="asset/bgcomputer.jpg" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
                     </div>
                     <div class="col-lg-6">
                         <h2 class="display-5 fw-bold lh-1 mb-3">Techy Computer</h2>
-                        <p class="lead">Kami menjual berbagai hardware dan rakitan komputer, sesuai dengan kebutuhan dan budget pengguna.</p>
+                        <h5 class="mb-3">Selamat Datang (<?php echo $username; ?>)</h5>
+                        <p class="lead mt-5">Kami menjual berbagai hardware dan rakitan komputer, sesuai dengan kebutuhan dan budget pengguna.</p>
                         <p class="lead">Kami selalu memberikan update terbaru tentang barang terbaru dan ketersedian barang.</p>
+                        <button class="btn btn-warning" onclick="showLogoutModal()">Logout</button>
                     </div>
                 </div>
             </div>
         </section>
 
-
-        <!-- End -->
+        <!-- Modal Logout -->
+        <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="logoutModalLabel">Konfirmasi Logout</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Apakah Anda yakin ingin logout?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="button" class="btn btn-primary" onclick="confirmLogout()">Ya</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Tabel Display Barang -->
-        <section>
-            <div class="container mt-5 mb-3 shadow-sm">
+        <section id="display">
+            <div class="container mt-5 mb-3">
                 <!-- <h1 class="text-center mb-4">Selamat Datang di Dashboard Pelanggan</h1> -->
                 <div class="row justify-content-center">
                     <div class="col-md-8">
@@ -123,7 +144,7 @@ $result = mysqli_query($conn, $sql);
                                 <!-- Form Pencarian -->
                                 <form method="GET" action="">
                                     <div class="input-group mb-3">
-                                        <input type="text" class="form-control border-primary" placeholder="Cari Barang Tertentu: " name="keyword">
+                                        <input type="text" class="form-control border-warning" placeholder="Cari Barang Tertentu: " name="keyword">
                                         <button class="btn btn-outline-success" type="submit">Cari</button>
                                         <a href="dashboard_pelanggan.php" class="btn btn-outline-danger">Refresh</a>
                                     </div>
@@ -161,7 +182,7 @@ $result = mysqli_query($conn, $sql);
         <!-- End -->
 
         <!-- Rekomendasi Rakitan PC -->
-        <section>
+        <section id="rekomendasi">
             <h3 class="text-center mt-5">Galeri Rekomendasi Rakitan PC Terkini</h3>
             <div class="album py-5 bg-light">
                 <div class="container">
@@ -297,84 +318,81 @@ $result = mysqli_query($conn, $sql);
                 </div>
             </div>
         </section>
-    </main>
 
-    <!-- FOOTER -->
-    <footer class="text-center text-lg-start bg-body-tertiary text-muted shadow">
-
-        <!-- Section: Links  -->
-        <section class="">
-            <div class="container text-md-start mt-5 text-center">
-                <!-- Grid row -->
-                <div class="row mt-3">
-                    <!-- Grid column -->
-                    <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
-                        <!-- Content -->
-                        <h6 class="text-uppercase fw-bold mb-4">
-                            <i class="fas fa-gem me-3"></i>ABOUT US
-                        </h6>
-                        <p>
-                            Kami menjual berbagai hardware dan rakitan komputer, sesuai dengan kebutuhan dan budget pengguna.
-                        </p>
+        <!-- Detail Toko -->
+        <section id="detailtoko">
+            <div class="container mt-3 mb-5 shadow-sm">
+                <div class="row justify-content-center flex-column">
+                    <!-- Detail Toko -->
+                    <div class="col-md-6 mb-3 mx-auto">
+                        <h3 class="mb-3 text-center">Lokasi Techy Computer: </h3>
+                        <p><i class="fa-solid fa-location-dot me-3"></i>Menteng Wadas Timur No. 112, Jakarta.</p>
+                        <p><i class="fas fa-phone me-3"></i>+62 895704368</p>
+                        <!-- Google Maps -->
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.655148722984!2d106.84083331435428!3d-6.208589295484835!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e6a0216de4af507%3A0x6187407b42f54d2f!2sTechy%20Computer!5e0!3m2!1sen!2sid!4v1649159617657!5m2!1sen!2sid" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
                     </div>
-                    <!-- Grid column -->
-
-                    <!-- GMAPS -->
-                    <!-- <div class="card col-md-3 col-lg-4 col-xl-3 mx-auto mb-4 text-center">
-                        <div class="card-body">
-                            <h5 class="card-title"></h5>
-                            <div class="ratio ratio-16x9">
-                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d356933.8714888409!2d10.413661869378636!3d45.65994086120074!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4781eca8aec020b9%3A0x91dcf07c1c969bb8!2sGarda!5e0!3m2!1spl!2spl!4v1672244147501!5m2!1spl!2spl" class="card-img-top h-100" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                            </div>
-                        </div>
-                    </div> -->
-                    <!-- End -->
-
-                    <!-- Grid column -->
-                    <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4 text-center">
-                        <!-- Links -->
-                        <h6 class="text-uppercase fw-bold mb-4">
-                            Useful links
-                        </h6>
-                        <p>
-                            <a href="#!" class="text-reset">Pricing</a>
-                        </p>
-                        <p>
-                            <a href="#!" class="text-reset">Settings</a>
-                        </p>
-                    </div>
-                    <!-- Grid column -->
-
-                    <!-- Grid column -->
-                    <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4 text-center">
-                        <!-- Links -->
-                        <h6 class="text-uppercase fw-bold mb-4">Contact</h6>
-                        <p><i class="fas fa-home me-3"></i> New York, NY 10012, US</p>
-                        <p>
-                            <i class="fas fa-envelope me-3"></i>
-                            info@example.com
-                        </p>
-                        <p><i class="fas fa-phone me-3"></i> + 01 234 567 88</p>
-                        <p><i class="fas fa-print me-3"></i> + 01 234 567 89</p>
-                    </div>
-                    <!-- Grid column -->
                 </div>
-                <!-- Grid row -->
             </div>
         </section>
-        <!-- Section: Links  -->
-
-        <div class="text-center p-4">
-            © 2024 Copyright:
-            <a class="text-reset fw-bold" href="https://mdbootstrap.com/">TechyComputer.com</a>
-        </div>
-    </footer>
-    <!-- Footer -->
 
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <script src="scripts.js"></script>
+        <!-- FOOTER -->
+        <footer class="text-center text-lg-start bg-dark text-muted mt-5">
 
+            <!-- Section: Links  -->
+            <section class="">
+                <div class="container text-md-start mt-5 text-center">
+                    <!-- Grid row -->
+                    <div class="row mt-3">
+                        <!-- Grid column -->
+                        <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4 mt-4">
+                            <!-- Content -->
+                            <h6 class="text-uppercase fw-bold mb-4">
+                                <i class="fas fa-gem me-3"></i>ABOUT US
+                            </h6>
+                            <p>
+                                Kami menjual berbagai hardware dan rakitan komputer, sesuai dengan kebutuhan dan budget pengguna.
+                            </p>
+                        </div>
+                        <!-- Grid column -->
+
+                        <!-- Grid column -->
+                        <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4 mt-4 text-center">
+                            <h6 class="text-uppercase fw-bold mb-4">Contact: </h6>
+                            <p><i class="fas fa-home me-3"></i> Menteng, Jakarta No. 112</p>
+                            <p>
+                                <i class="fas fa-envelope me-3"></i>
+                                techycomp@outlook.com
+                            </p>
+                            <p><i class="fas fa-phone me-3"></i> +62 895704368</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="text-center p-4">
+                © 2024 Copyright:
+                <a class="text-reset fw-bold" href="#">TechyComputer.com</a>
+            </div>
+        </footer>
+        <!-- Footer -->
+
+
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <script>
+            // Fungsi untuk menampilkan modal logout
+            function showLogoutModal() {
+                var logoutModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+                logoutModal.show();
+            }
+
+            // Fungsi untuk melakukan logout
+            function confirmLogout() {
+                // Redirect to index.php when "Yes" is clicked
+                window.location.href = "logout/logoutuser.php";
+            }
+        </script>
 </body>
 
 </html>

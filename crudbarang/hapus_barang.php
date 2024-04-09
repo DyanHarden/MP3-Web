@@ -4,17 +4,24 @@ include '../koneksi.php';
 // Ambil ID barang dari parameter URL
 $id_barang = $_GET['id'];
 
-// Query untuk menghapus data barang berdasarkan ID
-$query = "DELETE FROM barang WHERE id_barang='$id_barang'";
-$result = mysqli_query($conn, $query);
+// Cek apakah form telah disubmit
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Jika admin telah mengkonfirmasi penghapusan, lanjutkan dengan proses penghapusan
+    if ($_POST["confirm_delete"] == "yes") {
+        // Query untuk menghapus data barang berdasarkan ID
+        $query = "DELETE FROM barang WHERE id_barang='$id_barang'";
+        $result = mysqli_query($conn, $query);
 
-if ($result) {
-    // Redirect ke halaman dashboard_admin.php jika hapus barang berhasil
-    header("Location: ../dashboard_admin.php");
-    exit();
-} else {
-    $error_message = "Gagal menghapus barang. Silakan coba lagi.";
+        if ($result) {
+            // Redirect ke halaman dashboard_admin.php jika hapus barang berhasil
+            header("Location: ../dashboard_admin.php");
+            exit();
+        } else {
+            $error_message = "Gagal menghapus barang. Silakan coba lagi.";
+        }
+    }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -34,7 +41,25 @@ if ($result) {
                 <?php echo $error_message; ?>
             </div>
         <?php } ?>
+
+        <!-- Konfirmasi sebelum menghapus barang -->
+        <div class="alert alert-warning" role="alert">
+            Anda yakin ingin menghapus barang ini?
+        </div>
+        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) . '?id=' . $id_barang; ?>">
+            <input type="hidden" name="id_barang" value="<?php echo $id_barang; ?>">
+            <input type="hidden" name="confirm_delete" value="yes">
+            <button type="submit" class="btn btn-danger">Ya</button>
+            <a href="../dashboard_admin.php" class="btn btn-secondary">Tidak</a>
+        </form>
     </div>
+
+    <!-- Script -->
+    <script>
+        function confirmDelete() {
+            return confirm("Anda yakin ingin menghapus barang ini?");
+        }
+    </script>
 </body>
 
 </html>

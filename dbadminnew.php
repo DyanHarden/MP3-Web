@@ -62,6 +62,9 @@ $result = mysqli_query($conn, $sql);
         <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+        <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+        <div class="navbar-nav">
+        </div>
     </header>
 
     <div class="container-fluid">
@@ -70,20 +73,15 @@ $result = mysqli_query($conn, $sql);
                 <div class="position-sticky pt-3">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="dashboard_admin.php">
+                            <a class="nav-link active" aria-current="page" href="#">
                                 <span data-feather="home"></span>
                                 Dashboard
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#displaytoko">
+                            <a class="nav-link" href="#">
                                 <span data-feather="file"></span>
                                 Data Barang Toko
-                            </a>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#grafikpenjualan">
-                                <span data-feather="file"></span>
-                                Grafik Penjualan
                             </a>
                     </ul>
                 </div>
@@ -128,7 +126,7 @@ $result = mysqli_query($conn, $sql);
                 </section>
 
                 <!-- Section Display Barang -->
-                <section id="displaytoko">
+                <section>
                     <div class="container mt-5 mb-3">
                         <div class="card">
                             <div class="card-body">
@@ -139,7 +137,7 @@ $result = mysqli_query($conn, $sql);
                                     <div class="input-group mb-3">
                                         <input type="text" class="form-control border-primary" placeholder="Cari Barang Tertentu: " name="keyword">
                                         <button class="btn btn-outline-primary" type="submit">Cari</button>
-                                        <a href="dashboard_admin.php" class="btn btn-outline-warning">Refresh</a>
+                                        <a href="dbadminnew.php" class="btn btn-outline-warning">Refresh</a>
                                     </div>
                                 </form>
 
@@ -180,65 +178,30 @@ $result = mysqli_query($conn, $sql);
                         </div>
                     </div>
                 </section>
-
-                <section id="grafikpenjualan">
-                    <div class="container mt-5 mb-3">
-                        <h3>Grafik Penjualan Hardware Bulan Ini: </h3>
-                        <canvas id="salesChart" width="400" height="200"></canvas>
-                    </div>
-                </section>
             </main>
         </div>
     </div>
 
-    <footer class="bg-dark text-light text-center text-lg-start ms-5 me-5 mt-5">
-        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
-            2024 Copyright:
-            <a class="text-light" href="#">™TechyComputer.com</a>
-        </div>
+    <!-- Footer -->
+    <footer>
+
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script>
+        // JavaScript to handle sign out button click
         document.getElementById("signOutBtn").addEventListener("click", function(event) {
-            event.preventDefault();
+            event.preventDefault(); // Prevent default button action
+            // Show the sign out confirmation modal
             var signOutModal = new bootstrap.Modal(document.getElementById('signOutModal'));
             signOutModal.show();
         });
 
+        // JavaScript to handle confirmation of sign out
         document.getElementById("confirmSignOut").addEventListener("click", function(event) {
+            // Redirect to index.php when "Yes" is clicked
             window.location.href = "logout/logoutadmin.php";
         });
-    </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        // Data penjualan hardware bulan ini
-        var salesData = {
-            labels: ['Minggu 1', 'Minggu 2', 'Minggu 3', 'Minggu 4'],
-            datasets: [{
-                label: 'Penjualan Hardware dan Rakitan',
-                data: [250, 320, 400, 300],
-                backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1
-            }]
-        };
-
-        // Konfigurasi grafik
-        var salesConfig = {
-            type: 'line',
-            data: salesData,
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        };
-
-        var salesChart = new Chart(document.getElementById('salesChart'), salesConfig);
     </script>
 </body>
 
