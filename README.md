@@ -5,3 +5,7 @@
 
 #### Website Links:
 http://techycomputer.kesug.com/
+
+Username & password for admin:
+- admindian
+- kamikaze357
