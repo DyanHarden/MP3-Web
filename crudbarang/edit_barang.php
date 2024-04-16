@@ -2,6 +2,7 @@
 session_start();
 include '../koneksi.php';
 
+// Cek Login dari admin
 if (!isset($_SESSION["admin_logged_in"]) || $_SESSION["admin_logged_in"] !== true) {
     header("Location: ../login_admin.php");
     exit;
