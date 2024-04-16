@@ -1,5 +1,11 @@
 <?php
+session_start();
 include '../koneksi.php';
+
+if (!isset($_SESSION["admin_logged_in"]) || $_SESSION["admin_logged_in"] !== true) {
+    header("Location: ../login_admin.php");
+    exit;
+}
 
 $error_message = ""; // Inisialisasi pesan error
 
